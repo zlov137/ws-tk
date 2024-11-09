@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# ed select lines however many lines then pick your cmt flavor 
+while IFS= read -r line; do 
+  echo "${1:-#} $line"
+done

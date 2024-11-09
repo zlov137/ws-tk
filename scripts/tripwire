@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# check if anything important has been messed with
+
+rootdir='/'
+
+# add whatever you want to filter here 
+# doesnt have to be the full path 
+
+# just pipe at the end
+
+exclude=\
+'continer|cache|'\
+'\/[a-f0-9]{3,}_0|'\
+"^${HOME}"\
+'/.(bash_history|viminfo)|'\
+'/.cache/google|'\
+'/undo|'\
+'/zet|'\
+'/.git|'\
+'/github.com'
+'/.config/brave|'\
+'/.mozilla|'\
+'/.config/discord|'\
+#'/.config/vivaldi|'\
+'/.config/BraveSoftware/Brave-Browser|'\
+'/.var/app/com.discordapp|'\
+'/.var/app/com.chatterino|'\
+#'/timeshift|'\
+'/golang.org|'\
+
+# if wanting to lock it to beginning of the file of the line, ^
+
+include='^/(home|etc|dev)'
+#include='^/(etc|dev)'
+#include='^/home'
+#include='^/etc'
+#include='^/dev'
+
+# change the lookback period if ya want
+
+find "${rootdir}" -type f -mtime 0 2>/dev/null | \
+  \grep -E "${include}" | \
+  \grep -E -v "${exclude}"
+

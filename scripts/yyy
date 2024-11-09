@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# :.,.+<however many lines you want to yank>!
+> /tmp/buf
+while IFS= read -r line;do
+  echo "$line" >> /tmp/buf
+  echo "$line"
+done
