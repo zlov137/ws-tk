@@ -1,0 +1,44 @@
+#!/bin/bash
+
+unalias ts-* 2>/dev/null
+
+server_names=()
+
+while read -r ip name user os status; do
+  [[ "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] || continue
+  alias ts-$name="ssh $user@$ip"
+  server_names+=("$name")
+done < <(tailscale status)
+
+echo "Tailscale addresses updated."
+echo "------------------"
+echo "Available Servers:"
+echo "------------------"
+
+count=0
+
+for server in "${server_names[@]}"; do
+  printf "%-20s" "$server"
+  count=$((count + 1))
+  if (( count % 3 == 0 )); then
+    echo
+  fi
+done
+
+if (( count % 3 != 0 )); then
+  echo
+fi
+
+# #!/bin/bash
+# unalias ts-* 2>/dev/null
+# server_names=()
+# tailscale status | while read -r ip name user os status; do
+#   [[ "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-0]+$ ]] || continue
+#   alias ts-$name="ssh $user@$ip"
+#   server_names+=("$name")
+# done
+
+# echo "Tailscale addresses updated."
+# echo "Available Servers:"
+# printf "%s\n" "${server_names[@]}"
+
