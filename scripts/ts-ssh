@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if ! command -v tailscale &>/dev/null; then
+  echo "Tailscale is not installed on this system."
+  exit 1
+fi
+
+if ! tailscale status &>/dev/null; then
+  echo "No Tailnet detected or Tailscale is not running."
+  exit 1
+fi
+
 unalias ts-* 2>/dev/null
 
 server_names=()
